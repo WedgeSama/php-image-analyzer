@@ -22,84 +22,84 @@ class Image {
 	 * 
 	 * @var string
 	 */
-	var $type;
+	private $type;
 
 	/**
 	 * File path of the image
 	 *
 	 * @var string
 	 */
-	var $file_path;
+	private $file_path;
 
 	/**
 	 * Ratio of the image W/H
 	 * 
 	 * @var float
 	 */
-	var $size_ratio;
+	private $size_ratio;
 
 	/**
 	 * GD ressource
 	 * 
 	 * @var ressource
 	 */
-	var $or = null;
+	private $or = null;
 
 	/**
 	 * Height of the image
 	 * 
 	 * @var integer
 	 */
-	var $oh;
+	private $oh;
 
 	/**
 	 * Width of the image
 	 * 
 	 * @var integer
 	 */
-	var $ow;
+	private $ow;
 
 	/**
 	 * GD ressource of the thumbnail
 	 *
 	 * @var ressource
 	 */
-	var $tr = null;
+	private $tr = null;
 
 	/**
 	 * Resize factor
 	 * 
 	 * @var float
 	 */
-	var $t_facteur;
+	private $t_facteur;
 
 	/**
 	 * Height of the thumbnail
 	 *
 	 * @var integer
 	 */
-	var $th;
+	private $th;
 
 	/**
 	 * Width of the thumbnail
 	 *
 	 * @var integer
 	 */
-	var $tw;
+	private $tw;
 
 	/**
 	 * GD ressource of the gray thumbnail
 	 *
 	 * @var ressource
 	 */
-	var $gtr = null;
+	private $gtr = null;
 	
 	/**
 	 * GD ressource of the edge thumbnail
 	 *
 	 * @var ressource
 	 */
-	var $etr = null;
+	private $etr = null;
 
 	/**
 	 * Creates an Image instance for a specified image. 
@@ -323,6 +323,48 @@ class Image {
 	 */
 	public function getImage(){
 	    return $this->or;
+	}
+	
+	/**
+	 * Get height of thumbnail
+	 * 
+	 * @return number
+	 */
+    public function getHeightT(){
+	    if($this->tr == null)
+	        $this->thumbnailize();
+	    
+	    return $this->th;
+	}
+	
+	/**
+	 * Get width of thumbnail
+	 *
+	 * @return number
+	 */
+	public function getWidthT(){
+	    if($this->tr == null)
+	        $this->thumbnailize();
+	     
+	    return $this->tw;
+	}
+	
+	/**
+	 * Get height of image
+	 *
+	 * @return number
+	 */
+	public function getHeight(){
+	    return $this->oh;
+	}
+	
+	/**
+	 * Get width of image
+	 *
+	 * @return number
+	 */
+	public function getWidth(){
+	    return $this->ow;
 	}
 }
 
