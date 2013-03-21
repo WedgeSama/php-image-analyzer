@@ -43,7 +43,7 @@ class Image {
 	 * 
 	 * @var ressource
 	 */
-	var $or;
+	var $or = null;
 
 	/**
 	 * Height of the image
@@ -64,7 +64,7 @@ class Image {
 	 *
 	 * @var ressource
 	 */
-	var $tr;
+	var $tr = null;
 
 	/**
 	 * Resize factor
@@ -92,14 +92,14 @@ class Image {
 	 *
 	 * @var ressource
 	 */
-	var $gtr;
+	var $gtr = null;
 	
 	/**
 	 * GD ressource of the edge thumbnail
 	 *
 	 * @var ressource
 	 */
-	var $etr;
+	var $etr = null;
 
 	/**
 	 * Creates an Image instance for a specified image. 
@@ -112,19 +112,23 @@ class Image {
 		$this->checkValidFileImage();
 		$this->loadImage();
 		$this->initStats();
-		$this->thumbnailize();
-		$this->gray();
-		$this->edge();
 	}
 
 	/**
 	 * Destructor
 	 */
 	function __destruct() {
-		imagedestroy($this->tr);
-		imagedestroy($this->or);
-		imagedestroy($this->gtr);
-		imagedestroy($this->etr);
+	    if($this->tr != null)
+		    imagedestroy($this->tr);
+		
+		if($this->or != null)
+		    imagedestroy($this->or);
+		
+		if($this->gtr != null)
+		    imagedestroy($this->gtr);
+		
+		if($this->etr != null)
+		    imagedestroy($this->etr);
 	}
 
 	/**
@@ -208,6 +212,8 @@ class Image {
 	 * @throws ImageException
 	 */
 	private function gray() {
+	    $this->getThumb();
+	    
 		$this->gtr = imagecreatetruecolor($this->tw, $this->th);
 		if (!imagecopyresampled($this->gtr, $this->tr, 0, 0, 0, 0, $this->tw,
 				$this->th, $this->tw, $this->th))
@@ -222,6 +228,8 @@ class Image {
 	 * @throws ImageException
 	 */
 	private function edge() {
+	    $this->getThumb();
+	    
 		$this->etr = imagecreatetruecolor($this->tw, $this->th);
 		if (!imagecopyresampled($this->etr, $this->tr, 0, 0, 0, 0, $this->tw,
 				$this->th, $this->tw, $this->th))
@@ -242,13 +250,13 @@ class Image {
 				$img = $this->or;
 				break;
 			case 'thumb':
-				$img = $this->tr;
+				$img = $this->getThumb();
 				break;
 			case 'gray':
-				$img = $this->gtr;
+				$img = $this->getGray();
 				break;
 			case 'edge':
-				$img = $this->etr;
+				$img = $this->getEdge();
 				break;
 			default:
 				throw new ImageException("Impossible to show the image.");
@@ -270,6 +278,51 @@ class Image {
 		default:
 			throw new ImageException("Impossible to show the image.");
 		}
+	}
+	
+	/**
+	 * Get edge thumbnail GD ressource
+	 * 
+	 * @return ressource
+	 */
+	public function getEdge(){
+	    if($this->etr == null)
+	        $this->edge();
+	    
+	    return $this->etr;
+	}
+	
+	/**
+	 * Get thumbnail GD ressource
+	 *
+	 * @return ressource
+	 */
+	public function getThumb(){
+	    if($this->tr == null)
+	        $this->thumbnailize();
+	    
+	    return $this->tr;
+	}
+	
+	/**
+	 * Get gray thumbnail GD ressource
+	 *
+	 * @return ressource
+	 */
+	public function getGray(){
+	    if($this->gtr == null)
+	        $this->gray();
+	    
+	    return $this->gtr;
+	}
+	
+	/**
+	 * Get image GD ressource
+	 *
+	 * @return ressource
+	 */
+	public function getImage(){
+	    return $this->or;
 	}
 }
 
