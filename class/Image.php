@@ -186,14 +186,14 @@ class Image {
 	 * @throws ImageException
 	 */
 	private function thumbnailize() {
-		if ($this->size_ratio > 1 && $this->ow > Image::max_dim) {
-			$this->tw = Image::max_dim;
-			$this->th = Image::max_dim / $this->size_ratio;
-			$this->t_facteur = $this->tw / Image::max_dim;
-		} else if ($this->size_ratio < 1 && $this->oh > Image::max_dim) {
-			$this->tw = Image::max_dim * $this->size_ratio;
-			$this->th = Image::max_dim;
-			$this->t_facteur = $this->th / Image::max_dim;
+		if ($this->size_ratio > 1 && $this->ow > self::max_dim) {
+			$this->tw = self::max_dim;
+			$this->th = self::max_dim / $this->size_ratio;
+			$this->t_facteur = $this->tw / self::max_dim;
+		} else if ($this->size_ratio < 1 && $this->oh > self::max_dim) {
+			$this->tw = self::max_dim * $this->size_ratio;
+			$this->th = self::max_dim;
+			$this->t_facteur = $this->th / self::max_dim;
 		} else {
 			$this->tw = $this->ow;
 			$this->th = $this->oh;
