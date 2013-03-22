@@ -132,6 +132,11 @@ class ColorClass
         return $classif;
     }
 
+    /**
+     * Get hexa code of references colors
+     * 
+     * @return array:string
+     */
     public function getReferenceColor()
     {
         $result = array();
