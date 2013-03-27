@@ -366,5 +366,14 @@ class Image {
 	public function getWidth(){
 	    return $this->ow;
 	}
+	
+	/**
+	 * get ratio between thumbnail and image
+	 * 
+	 * @return number
+	 */
+	public function getRatio(){
+		return $this->size_ratio;
+	}
 }
 
