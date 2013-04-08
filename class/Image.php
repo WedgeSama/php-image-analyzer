@@ -95,6 +95,20 @@ class Image {
     private $gtr = null;
 
     /**
+     * Integral image
+     * 
+     * @var array:number
+     */
+    private $integral = null;
+
+    /**
+     * Integral square image
+     *
+     * @var array:number
+     */
+    private $integralSquare = null;
+
+    /**
      * Creates an Image instance for a specified image. 
      * 
      * @param string $file Path to the image
@@ -211,6 +225,43 @@ class Image {
             throw new ImageException("Error gray.");
 
         imagefilter($this->gtr, IMG_FILTER_GRAYSCALE);
+    }
+
+    /**
+     * Create integral images
+     */
+    private function initIntegral() {
+        $this->getGray();
+
+        // init tabs
+        $this->integral = array_fill(0, $this->tw,
+                array_fill(0, $this->th, null));
+        $this->integralSquare = array_fill(0, $this->tw,
+                array_fill(0, $this->th, null));
+
+        for ($x = 0; $x < $this->tw; $x++) {
+            $cumul = 0;
+            $cumul_s = 0;
+            for ($y = 0; $y < $this->height; $y++) {
+                $colors = imagecolorsforindex($this->image,
+                        imagecolorat($this->image, $x, $y));
+
+                // color to grayscale
+                $value = 0.299 * $colors['red'] + 0.587 * $colors['green']
+                        + 0.114 * $colors['blue'];
+                $value_s = $value * $value;
+
+                // calcul cumul
+                $cumul += $value;
+                $cumul_s += $value_s;
+
+                // set in integral images
+                $this->integral[$x][$y] = ($x > 0 ? $this->integral[$x - 1][$y]
+                        : 0) + $cumul;
+                $this->integralSquare[$x][$y] = ($x > 0 ? $this
+                                ->integralSquare[$x - 1][$y] : 0) + $cumul_s;
+            }
+        }
     }
 
     /**
@@ -335,6 +386,30 @@ class Image {
      */
     public function getRatio() {
         return $this->size_ratio;
+    }
+    
+    /**
+     * Get integral image
+     * 
+     * @return array:number
+     */
+    public function getIntegral(){
+        if($this->integral == null)
+            $this->initIntegral();
+        
+        return $this->integral;
+    }
+    
+    /**
+    * Get integral square image
+    *
+    * @return array:number
+    */
+    public function getIntegralSquare(){
+        if($this->integralSquare == null)
+            $this->initIntegral();
+    
+        return $this->integralSquare;
     }
 }
 
