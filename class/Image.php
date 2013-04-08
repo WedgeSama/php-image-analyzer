@@ -242,9 +242,9 @@ class Image {
         for ($x = 0; $x < $this->tw; $x++) {
             $cumul = 0;
             $cumul_s = 0;
-            for ($y = 0; $y < $this->height; $y++) {
-                $colors = imagecolorsforindex($this->image,
-                        imagecolorat($this->image, $x, $y));
+            for ($y = 0; $y < $this->th; $y++) {
+                $colors = imagecolorsforindex($this->gtr,
+                        imagecolorat($this->gtr, $x, $y));
 
                 // color to grayscale
                 $value = 0.299 * $colors['red'] + 0.587 * $colors['green']
@@ -387,29 +387,62 @@ class Image {
     public function getRatio() {
         return $this->size_ratio;
     }
-    
+
     /**
      * Get integral image
      * 
      * @return array:number
      */
-    public function getIntegral(){
-        if($this->integral == null)
+    public function getIntegral() {
+        if ($this->integral == null)
             $this->initIntegral();
-        
+
         return $this->integral;
     }
-    
+
     /**
-    * Get integral square image
-    *
-    * @return array:number
-    */
-    public function getIntegralSquare(){
-        if($this->integralSquare == null)
+     * Get integral square image
+     *
+     * @return array:number
+     */
+    public function getIntegralSquare() {
+        if ($this->integralSquare == null)
             $this->initIntegral();
-    
+
         return $this->integralSquare;
+    }
+
+    /**
+     * Draw a square on the image, based on thumbnail size
+     * 
+     * @param int $x
+     * @param int $y
+     * @param int $h
+     * @param int $w
+     */
+    public function drawSquare($x, $y, $w, $h) {
+        $x1 = $x;
+        $y1 = $y;
+        $x2 = $x + $w;
+        $y2 = $y + $h;
+
+        $imgs = array();
+        if ($this->tr != null)
+            $imgs[] = $this->tr;
+
+        if ($this->gtr != null)
+            $imgs[] = $this->gtr;
+
+        foreach ($imgs as $rsc) {
+            $color = imagecolorallocate($rsc, 255, 0, 0);
+            imagerectangle($rsc, $x1, $y1, $x2, $y2, $color);
+        }
+
+        $color = imagecolorallocate($this->or, 255, 0, 0);
+        imagerectangle($this->or, (int) ($x1 * $this->t_facteur),
+                (int) ($y1 * $this->t_facteur), (int) ($x2 * $this->t_facteur),
+                (int) ($y2 * $this->t_facteur), $color);
+
     }
 }
 
