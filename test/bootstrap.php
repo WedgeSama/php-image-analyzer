@@ -10,6 +10,9 @@
 require_once __DIR__ . '/../lib/Phia/Autoloader.php';
 
 use Phia\Autoloader;
+use Phia\Phia;
 
 $loader = new Autoloader();
 $loader->register();
+
+$phia = new Phia();
