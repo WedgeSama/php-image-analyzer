@@ -12,7 +12,7 @@ namespace Phia\GD;
 use Phia\Image as ImageBase;
 
 /**
- * Object to represente an image. Work with GD.
+ * Object to represent an image. Works with GD.
  * 
  * @author Benjamin Georgeault <wedgesama@gmail.com>
  */
