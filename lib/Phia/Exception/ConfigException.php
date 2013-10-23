@@ -10,7 +10,7 @@
 namespace Phia\Exception;
 
 /**
- * Class exception for configuration.
+ * Exception class for configuration.
  * 
  * @author Benjamin Georgeault <wedgesama@gmail.com>
  */
