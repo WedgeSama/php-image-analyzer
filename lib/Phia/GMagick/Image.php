@@ -12,7 +12,7 @@ namespace Phia\GMagick;
 use Phia\Image as ImageBase;
 
 /**
- * Object to represente an image. Work with GMagick.
+ * Object to represent an image. Works with GMagick.
  * 
  * @author Benjamin Georgeault <wedgesama@gmail.com>
  */
