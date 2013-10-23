@@ -10,7 +10,7 @@
 namespace Phia\Exception;
 
 /**
- * Class exception for loading an image.
+ * Exception class for loading an image.
  * 
  * @author Benjamin Georgeault <wedgesama@gmail.com>
  */
