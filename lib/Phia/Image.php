@@ -10,7 +10,7 @@
 namespace Phia;
 
 /**
- * Object to represente an image. Base for all images PHP extension.
+ * Object to represent an image. Base for all PHP-accessible image extensions.
  * 
  * @author Benjamin Georgeault <wedgesama@gmail.com>
  */
